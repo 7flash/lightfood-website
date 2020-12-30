@@ -1359,69 +1359,6 @@
 						"form-type": $form.attr("data-form-type") || "contact",
 						"counter": i
 					},
-					beforeSubmit: function (arr, $form, options) {
-						if (isNoviBuilder)
-							return;
-
-						var form = $(plugins.rdMailForm[this.extraData.counter]),
-							inputs = form.find("[data-constraints]"),
-							output = $("#" + form.attr("data-form-output")),
-							captcha = form.find('.recaptcha'),
-							captchaFlag = true;
-
-						output.removeClass("active error success");
-
-						if (isValidated(inputs, captcha)) {
-
-							// veify reCaptcha
-							if (captcha.length) {
-								var captchaToken = captcha.find('.g-recaptcha-response').val(),
-									captchaMsg = {
-										'CPT001': 'Please, setup you "site key" and "secret key" of reCaptcha',
-										'CPT002': 'Something wrong with google reCaptcha'
-									};
-
-								formHasCaptcha = true;
-
-								$.ajax({
-									method: "POST",
-									url: "bat/reCaptcha.php",
-									data: {'g-recaptcha-response': captchaToken},
-									async: false
-								})
-									.done(function (responceCode) {
-										if (responceCode !== 'CPT000') {
-											if (output.hasClass("snackbars")) {
-												output.html('<p><span class="icon text-middle mdi mdi-check icon-xxs"></span><span>' + captchaMsg[responceCode] + '</span></p>')
-
-												setTimeout(function () {
-													output.removeClass("active");
-												}, 3500);
-
-												captchaFlag = false;
-											} else {
-												output.html(captchaMsg[responceCode]);
-											}
-
-											output.addClass("active");
-										}
-									});
-							}
-
-							if (!captchaFlag) {
-								return false;
-							}
-
-							form.addClass('form-in-process');
-
-							if (output.hasClass("snackbars")) {
-								output.html('<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Sending</span></p>');
-								output.addClass("active");
-							}
-						} else {
-							return false;
-						}
-					},
 					error: function (result) {
 						if (isNoviBuilder)
 							return;
