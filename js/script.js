@@ -1354,26 +1354,7 @@
 				var $form = $(plugins.rdMailForm[i]),
 					formHasCaptcha = false;
 
-				$form.attr('novalidate', 'novalidate').ajaxForm({
-					data: {
-						"form-type": $form.attr("data-form-type") || "contact",
-						"counter": i
-					},
-					error: function (result) {
-						if (isNoviBuilder)
-							return;
-
-						var output = $("#" + $(plugins.rdMailForm[this.extraData.counter]).attr("data-form-output")),
-							form = $(plugins.rdMailForm[this.extraData.counter]);
-
-						output.text(msg[result]);
-						form.removeClass('form-in-process');
-
-						if (formHasCaptcha) {
-							grecaptcha.reset();
-						}
-					},
-					success: function (result) {
+				$form.attr('novalidate', 'novalidate').ajaxForm(function (result) {
 						if (isNoviBuilder)
 							return;
 
@@ -1419,7 +1400,7 @@
 							form.removeClass('success');
 						}, 3500);
 					}
-				});
+				);
 			}
 		}
 
