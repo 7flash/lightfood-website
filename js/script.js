@@ -1338,7 +1338,7 @@
 		}
 
 		// RD Mailform
-		if (plugins.rdMailForm.length) {
+		if (plugins.rdMailForm.length || false) {
 			var i, j, k,
 				msg = {
 					'MF000': 'Successfully sent!',
