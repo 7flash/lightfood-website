@@ -1355,9 +1355,6 @@
 					formHasCaptcha = false;
 
 				$form.attr('novalidate', 'novalidate').ajaxForm(function (result) {
-						if (isNoviBuilder)
-							return;
-
 						var form = $(plugins.rdMailForm[this.extraData.counter]),
 							output = $("#" + form.attr("data-form-output")),
 							select = form.find('select');
@@ -1366,11 +1363,7 @@
 							.addClass('success')
 							.removeClass('form-in-process');
 
-						if (formHasCaptcha) {
-							grecaptcha.reset();
-						}
-
-						result = result.length === 5 ? result : 'MF255';
+						result = 'MF000';
 						output.text(msg[result]);
 
 						if (result === "MF000") {
